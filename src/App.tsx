@@ -1,12 +1,9 @@
 import { createSignal, type Component } from 'solid-js';
 
-import logo from './logo.svg';
-import styles from './App.module.css';
 import KMChoicePromptView from './components/KMChoicePromptView';
 import KMLongPromptView from './components/KMLongPromptView';
 import KMShortPromptView from './components/KMShortPromptView';
 import KMSubmitButtonView from './components/KMSubmitButton';
-import KMFormView from './components/KMFormView';
 
 
 const App: Component = () => {
@@ -14,7 +11,7 @@ const App: Component = () => {
 
     return (
         <div class="w-screen grid place-content-center">
-            <div class='w-[40vw]'>
+            <div class=''>
                 <KMChoicePromptView
                     id='choice-prompt'
                     required={true}
@@ -45,24 +42,24 @@ const App: Component = () => {
                     ]}
                     multipleChoiceMode={true} />
 
-                    <KMLongPromptView 
+                    <KMLongPromptView
                         id="long-prompt"
-                        required={true} 
+                        required={true}
                         storeUpdater={() => {}}
                         cols={2}
                         rows={8}
                         prompt='Long prompt'
                         description='Long prompt description' />
 
-                    <KMShortPromptView 
+                    <KMShortPromptView
                         id="long-prompt"
                         type="number"
-                        required={true} 
+                        required={true}
                         storeUpdater={() => {}}
                         prompt='Long prompt'
                         description='Long prompt description' />
 
-                    
+
                     <KMSubmitButtonView
                         onclick={ () => {}}
                         whenLoading={whenLoading}
