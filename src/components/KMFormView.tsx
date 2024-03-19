@@ -1,12 +1,12 @@
-import {FormResponse, Question, QuestionResponse, QuestionType, TypeForm} from "../../reusable/types.ts";
+import {FormResponse, Question, QuestionResponse, QuestionType, TypeForm} from "./KMTypes";
 import {Accessor, createEffect, createSignal, For, Match, Setter, Switch} from "solid-js";
-import FChoicePromptView from "./FChoicePromptView.tsx";
-import FLongPromptView from "./FLongPromptView.tsx";
+import KMChoicePromptView from "./KMChoicePromptView";
+import KMLongPromptView from "./KMLongPromptView";
 import {createStore} from "solid-js/store";
-import FShortPromptView from "./FShortPromptView.tsx";
-import FSubmitButtonView from "./FSubmitButtonView.tsx";
-import formRespond from "../../../api/form-respond.ts";
-import ViewTransition from "../../animations/ViewTransition.tsx";
+import KMShortPromptView from "./KMShortPromptView";
+import KMSubmitButtonView from "./KMSubmitButton";
+import formRespond from "../api/form-respond";
+import ViewTransition from "../../node_modules/kmanim/src/components/ViewTransition"
 
 /**
  * Takes in a list of `Question` and returns a list of `QuestionResponse`.
@@ -40,17 +40,17 @@ const initialiseStore = (questions: Question[]) => {
  * @param props.data The data that has been fetched from the backend. Must be in `TypeForm` type.
  * @param props.beginViewTransition  Signal for `ViewTransition` to begin transition animation.
  *
- * @uses `FChoicePromptView`
- * @uses `FShortPromptView`
- * @uses `FLongPromptView`
- * @uses `FSubmitButton`
+ * @uses `KMChoicePromptView`
+ * @uses `KMShortPromptView`
+ * @uses `KMLongPromptView`
+ * @uses `KMSubmitButton`
  * @see `TypeForm`
  * @see `ViewTransition`
  * @todo refactor this to be the `Form`.
  * @todo write documentation about `ViewTransition` compatibility.
  * @todo remove Boilerplate within the switch block by allowing all subcomponents to accept props.data
  */
-export default function FFormView(props: { data: TypeForm, beginViewTransition: Setter<boolean> }) {
+export default function KMFormView(props: { data: TypeForm, beginViewTransition: Setter<boolean> }) {
     const [values, setValues] = createStore<QuestionResponse[]>(initialiseStore(props.data.questions))
     const [whenLoading, setWhenLoading] = createSignal(false)
 
@@ -82,21 +82,21 @@ export default function FFormView(props: { data: TypeForm, beginViewTransition: 
             <For each={props.data.questions}>{(each, i) =>
                 <Switch>
                     <Match when={each.type == QuestionType.single}>
-                        <FChoicePromptView id={each.id} prompt={each.prompt} description={each.description} required={each.required} options={each.options} storeUpdater={updateStore}/>
+                        <KMChoicePromptView id={each.id} prompt={each.prompt} description={each.description} required={each.required} options={each.options} storeUpdater={updateStore}/>
                     </Match>
                     <Match when={each.type == QuestionType.multi}>
-                        <FChoicePromptView id={each.id} prompt={each.prompt} description={each.description} required={each.required} options={each.options} multipleChoiceMode={true} storeUpdater={updateStore}/>
+                        <KMChoicePromptView id={each.id} prompt={each.prompt} description={each.description} required={each.required} options={each.options} multipleChoiceMode={true} storeUpdater={updateStore}/>
                     </Match>
                     <Match when={each.type == QuestionType.short}>
-                        <FShortPromptView id={each.id} placeholder={each.placeholder} description={each.description} prompt={each.prompt} required={each.required} type={each.type} storeUpdater={updateStore}/>
+                        <KMShortPromptView id={each.id} placeholder={each.placeholder} description={each.description} prompt={each.prompt} required={each.required} type={each.type} storeUpdater={updateStore}/>
                     </Match>
                     <Match when={each.type == QuestionType.long}>
-                        <FLongPromptView storeUpdater={updateStore} id={each.id} cols={4} rows={4} prompt={each.prompt} description={each.description} required={each.required} placeholder={each.placeholder}/>
+                        <KMLongPromptView storeUpdater={updateStore} id={each.id} cols={4} rows={4} prompt={each.prompt} description={each.description} required={each.required} placeholder={each.placeholder}/>
                     </Match>
                 </Switch>
             }
             </For>
-            <FSubmitButtonView whenLoading={whenLoading} onclick={submitForm}/>
+            <KMSubmitButtonView whenLoading={whenLoading} onclick={submitForm}/>
         </div>
     )
 }
